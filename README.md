@@ -1,5 +1,5 @@
 **Planning System BPI**
 
 **Contributor**
-Septina Rohmatin
-Dicky Zulfikar
+- Septina Rohmatin
+- Dicky Zulfikar

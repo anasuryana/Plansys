@@ -24,11 +24,11 @@ Begin VB.Form F_Mst_Product_v2
    Begin VB.PictureBox Picmore 
       BackColor       =   &H0000C000&
       Height          =   4935
-      Left            =   720
+      Left            =   360
       ScaleHeight     =   4875
       ScaleWidth      =   7275
       TabIndex        =   41
-      Top             =   3960
+      Top             =   3840
       Visible         =   0   'False
       Width           =   7335
       Begin VB.PictureBox picother 
@@ -569,11 +569,11 @@ Begin VB.Form F_Mst_Product_v2
    Begin VB.PictureBox Picture3 
       BackColor       =   &H00C0E0FF&
       Height          =   2535
-      Left            =   5400
+      Left            =   5280
       ScaleHeight     =   2475
       ScaleWidth      =   5955
       TabIndex        =   6
-      Top             =   4200
+      Top             =   4440
       Visible         =   0   'False
       Width           =   6015
       Begin VB.CommandButton Command1 
@@ -873,6 +873,64 @@ Begin VB.Form F_Mst_Product_v2
       TabIndex        =   11
       Top             =   0
       Width           =   5895
+      Begin VB.PictureBox PicCheckContainer 
+         Height          =   5775
+         Left            =   120
+         ScaleHeight     =   5715
+         ScaleWidth      =   5595
+         TabIndex        =   98
+         Top             =   3000
+         Visible         =   0   'False
+         Width           =   5655
+         Begin VB.TextBox txtCheckResult 
+            Height          =   5055
+            Left            =   120
+            MultiLine       =   -1  'True
+            ScrollBars      =   3  'Both
+            TabIndex        =   101
+            Top             =   480
+            Width           =   5295
+         End
+         Begin VB.Label Label35 
+            Alignment       =   2  'Center
+            BackColor       =   &H000000FF&
+            Caption         =   "X"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00FFFFFF&
+            Height          =   375
+            Left            =   5160
+            TabIndex        =   100
+            Top             =   0
+            Width           =   495
+         End
+         Begin VB.Label Label34 
+            Alignment       =   2  'Center
+            BackColor       =   &H0000FF00&
+            Caption         =   "Result"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   0
+            TabIndex        =   99
+            Top             =   0
+            Width           =   5175
+         End
+      End
       Begin VB.TextBox txtrunnershoot 
          Height          =   360
          Left            =   1440
@@ -898,7 +956,7 @@ Begin VB.Form F_Mst_Product_v2
          GridLines       =   -1  'True
          _Version        =   393217
          ForeColor       =   -2147483640
-         BackColor       =   -2147483643
+         BackColor       =   16777215
          BorderStyle     =   1
          Appearance      =   1
          NumItems        =   21
@@ -1145,6 +1203,15 @@ Begin VB.Form F_Mst_Product_v2
          TabIndex        =   12
          Top             =   2040
          Width           =   1095
+      End
+      Begin VB.CommandButton cmdCheckInputCalc 
+         Caption         =   "Check "
+         Height          =   495
+         Left            =   3360
+         TabIndex        =   97
+         Tag             =   "s"
+         Top             =   3000
+         Width           =   855
       End
       Begin VB.Label Label27 
          BackColor       =   &H00C0FFC0&
@@ -1502,6 +1569,11 @@ Private Sub LoadSubDatanya()
     Call getSubList
 End Sub
 
+Private Sub LoadCheckResult()
+    Set rsProc = Con.Execute("select * from loadcap_proc where partno='" & txtItemid & "' order by priorit asc")
+    Call getSubList
+End Sub
+
 Private Sub kosong()
     txtItemid = ""
     txtItemName = ""
@@ -1600,6 +1672,28 @@ End Sub
 
 Private Sub cmdbox_Click()
     Popup_Box.Show 1
+End Sub
+
+Private Sub cmdCheckInputCalc_Click()
+    PicCheckContainer.Visible = True
+        
+    Set rsProc = Con.Execute("select * from loadcap_proc a where coalesce(a.ct,0)=0 " & _
+            "or coalesce(a.cavity,0)=0")
+    Dim strTemp_ As String
+    strTemp_ = strTemp_ & "FG" & vbTab & "Machine" & vbTab & "Mold" & vbNewLine
+    Dim isExist As Boolean
+    
+    Do Until rsProc.EOF
+        isExist = True
+        strTemp_ = strTemp_ & rsProc!partNo & vbTab & rsProc!prod_nomach & vbTab & rsProc!mold_no & vbNewLine
+        rsProc.MoveNext
+    Loop
+    
+    If isExist = False Then
+        strTemp_ = "Item-Mchine Master is OK"
+    End If
+    
+    txtCheckResult.Text = strTemp_
 End Sub
 
 Private Sub cmdCreateTempl_Click()
@@ -1921,9 +2015,7 @@ On Error GoTo ER_exc
         If MsgBox("Update  ?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
         BukaKoneksi
         Set rsAneHelper = New ADODB.Recordset
-        rsAneHelper.Open "select partno,isno,ttlmold,qtylot,minstock,maxstock, " _
-        & "typelabel,catgory,partname,wght,typeboxid,typelabelbox,colordesc " _
-        & ",shift_usg,hour_p_shift,faktor_productivity from loadcap_mst_product_r where lc_idproduct=" & id, Con, adOpenKeyset, adLockOptimistic, adCmdText
+        rsAneHelper.Open "select partno,isno,ttlmold,qtylot,minstock,maxstock,typelabel,catgory,partname,wght,typeboxid,typelabelbox,colordesc from loadcap_mst_product_r where lc_idproduct=" & id, Con, adOpenKeyset, adLockOptimistic, adCmdText
         If rsAneHelper("partno") = txtItemid Then
             rsAneHelper("isno") = txtISNo
             rsAneHelper("ttlmold") = txtTotalMold
@@ -1938,17 +2030,11 @@ On Error GoTo ER_exc
             rsAneHelper("typeboxid") = typebox
             rsAneHelper("colordesc") = txtcolor
             
-            rsAneHelper("shift_usg") = txtShift
-            rsAneHelper("hour_p_shift") = txtHourPshift
-            rsAneHelper("faktor_productivity") = txtFaktorProd
-            
             rsAneHelper.Update
         End If
         MsgBox "Updated ", vbInformation, "Good !"
     End If
-    If MsgBox("Apply current values of (shift, hour/shift and Productivity Factor) to all Part numbers ?", vbQuestion + vbYesNo) = vbYes Then
-        updatesHIFT
-    End If
+    updatesHIFT
     LoadDatanya
     Call getList
     Exit Sub
@@ -2203,6 +2289,10 @@ End Sub
 
 Private Sub Label31_Click()
     Picmore.Visible = False
+End Sub
+
+Private Sub Label35_Click()
+PicCheckContainer.Visible = False
 End Sub
 
 Private Sub LV_Click()

@@ -8,7 +8,7 @@ Begin VB.Form F_GenerateLoadCap_V2
    ClientHeight    =   7080
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   14430
+   ClientWidth     =   11400
    BeginProperty Font 
       Name            =   "Calibri"
       Size            =   11.25
@@ -21,7 +21,7 @@ Begin VB.Form F_GenerateLoadCap_V2
    LinkTopic       =   "Form1"
    MDIChild        =   -1  'True
    ScaleHeight     =   7080
-   ScaleWidth      =   14430
+   ScaleWidth      =   11400
    Begin VB.PictureBox PicFIND 
       BackColor       =   &H00C0FFC0&
       Height          =   1095
@@ -427,7 +427,7 @@ Begin VB.Form F_GenerateLoadCap_V2
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   68419587
+      Format          =   113246211
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 

@@ -377,7 +377,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   122093571
+      Format          =   122683395
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -458,7 +458,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   122159107
+      Format          =   122683395
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel2 
@@ -604,21 +604,21 @@ End Sub
 
 Private Sub cmdfind_Click()
     LoadDatanya
-    If Len(txtFind) > 0 Then
+    If Len(txtfind) > 0 Then
         rsWO.Fields("wo_no").Properties("Optimize") = True
         rsWO.Fields("partno").Properties("Optimize") = True
         rsWO.Fields("mesinno").Properties("Optimize") = True
         rsWO.Fields("partname").Properties("Optimize") = True
-        rsWO.Filter = "wo_no like '*" & txtFind & "*'"
+        rsWO.Filter = "wo_no like '*" & txtfind & "*'"
         'rsWO.Sort = ""
         If rsWO.RecordCount = 0 Then
             rsWO.Filter = adFilterNone
-            rsWO.Filter = "partno like '*" & txtFind & "*'"
+            rsWO.Filter = "partno like '*" & txtfind & "*'"
             If rsWO.RecordCount = 0 Then
                 rsWO.Filter = adFilterNone
-                rsWO.Filter = "mesinno like '*" & txtFind & "*'"
+                rsWO.Filter = "mesinno like '*" & txtfind & "*'"
                 If rsWO.RecordCount = 0 Then
-                    rsWO.Filter = "partname like '*" & txtFind & "*'"
+                    rsWO.Filter = "partname like '*" & txtfind & "*'"
                 End If
             End If
         End If
@@ -677,21 +677,21 @@ End Sub
 
 Private Sub cmdToday_Click()
     LoadDatanya_V2
-    If Len(txtFind) > 0 Then
+    If Len(txtfind) > 0 Then
         rsWO.Fields("wo_no").Properties("Optimize") = True
         rsWO.Fields("partno").Properties("Optimize") = True
         rsWO.Fields("mesinno").Properties("Optimize") = True
         rsWO.Fields("partname").Properties("Optimize") = True
-        rsWO.Filter = "wo_no like '*" & txtFind & "*'"
+        rsWO.Filter = "wo_no like '*" & txtfind & "*'"
         
         If rsWO.RecordCount = 0 Then
             rsWO.Filter = adFilterNone
-            rsWO.Filter = "partno like '*" & txtFind & "*'"
+            rsWO.Filter = "partno like '*" & txtfind & "*'"
             If rsWO.RecordCount = 0 Then
                 rsWO.Filter = adFilterNone
-                rsWO.Filter = "mesinno like '*" & txtFind & "*'"
+                rsWO.Filter = "mesinno like '*" & txtfind & "*'"
                 If rsWO.RecordCount = 0 Then
-                    rsWO.Filter = "partname like '*" & txtFind & "*'"
+                    rsWO.Filter = "partname like '*" & txtfind & "*'"
                 End If
             End If
         End If
@@ -962,7 +962,7 @@ Private Sub LoadDatanya()
     & " inner join worko_mat c on a.wo_no=c.wo_no " _
     & " inner join mst_item d on c.item_id=d.item_id" _
     & " inner join r_unit_measure e on d.um_id=e.um_id" _
-    & " where (issudate>='" & Format(dt1, "yyyy-MM-dd") & "' and issudate<='" & Format(dt2, "yyyy-MM-dd") & "') and lotno<>'' order by wo_no asc"
+    & " where (issudate>='" & Format(dt1, "yyyy-MM-dd") & "' and issudate<='" & Format(dt2, "yyyy-MM-dd") & "') and coalesce(lotno,'')<>'' order by wo_no asc"
 
     Set rsWO = Con.Execute(qry)
     StatusBar1.Panels(1).Text = "Last Info: Loaded"

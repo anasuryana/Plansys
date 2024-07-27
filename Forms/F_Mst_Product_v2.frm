@@ -24,11 +24,11 @@ Begin VB.Form F_Mst_Product_v2
    Begin VB.PictureBox Picmore 
       BackColor       =   &H0000C000&
       Height          =   4935
-      Left            =   360
+      Left            =   120
       ScaleHeight     =   4875
       ScaleWidth      =   7275
       TabIndex        =   41
-      Top             =   3840
+      Top             =   3960
       Visible         =   0   'False
       Width           =   7335
       Begin VB.PictureBox picother 
@@ -1804,7 +1804,7 @@ On Error GoTo ErrEx
         Con.Execute qry
         MsgBox "deleted successfully", vbInformation
     End If
-    If Len(txtfind) > 2 Then
+    If Len(txtFind) > 2 Then
         LoadDatanya
         LoadDatanya_V2
     Else
@@ -2049,8 +2049,8 @@ Private Sub updatesHIFT()
 End Sub
 
 Private Sub LoadDatanya_V2()
-    If Len(Trim(txtfind)) > 0 Then
-        RsGet.Filter = "partno LIKE '*" & txtfind & "*'"
+    If Len(Trim(txtFind)) > 0 Then
+        RsGet.Filter = "partno LIKE '*" & txtFind & "*'"
     Else
         RsGet.Filter = adFilterNone
     End If
@@ -2058,7 +2058,7 @@ Private Sub LoadDatanya_V2()
         Call getList
     Else
         RsGet.Filter = adFilterNone
-        RsGet.Filter = "item_name LIKE '*" & txtfind & "*'"
+        RsGet.Filter = "item_name LIKE '*" & txtFind & "*'"
         Call getList
     End If
     
@@ -2390,7 +2390,7 @@ End Sub
 
 Private Sub txtfind_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
-        txtfind = FilterIn(txtfind)
+        txtFind = FilterIn(txtFind)
         LoadDatanya
         LoadDatanya_V2
     End If

@@ -9,7 +9,7 @@ Begin VB.Form F_ReprintWO
    ClientHeight    =   5625
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   9120
+   ClientWidth     =   11175
    BeginProperty Font 
       Name            =   "Calibri"
       Size            =   9.75
@@ -23,17 +23,124 @@ Begin VB.Form F_ReprintWO
    MDIChild        =   -1  'True
    ScaleHeight     =   375
    ScaleMode       =   3  'Pixel
-   ScaleWidth      =   608
+   ScaleWidth      =   745
+   Begin MSComDlg.CommonDialog CommonDialog2 
+      Left            =   7680
+      Top             =   240
+      _ExtentX        =   847
+      _ExtentY        =   847
+      _Version        =   393216
+   End
+   Begin VB.PictureBox PicExportContainer 
+      BackColor       =   &H0000C000&
+      Height          =   1935
+      Left            =   120
+      ScaleHeight     =   1875
+      ScaleWidth      =   10875
+      TabIndex        =   21
+      Top             =   3360
+      Visible         =   0   'False
+      Width           =   10935
+      Begin VB.OptionButton OptExportWPS 
+         Caption         =   "WPS"
+         Height          =   255
+         Left            =   4200
+         TabIndex        =   26
+         Top             =   960
+         Width           =   2535
+      End
+      Begin VB.OptionButton optExportMicrosoft 
+         Caption         =   "Microsoft Excel"
+         Height          =   255
+         Left            =   4200
+         TabIndex        =   25
+         Top             =   600
+         Width           =   2535
+      End
+      Begin VB.CommandButton Command3 
+         Caption         =   "Export"
+         BeginProperty Font 
+            Name            =   "Calibri"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   4200
+         TabIndex        =   22
+         Top             =   1440
+         Width           =   2535
+      End
+      Begin VB.Label Label5 
+         Alignment       =   2  'Center
+         BackColor       =   &H0080FF80&
+         Caption         =   "Exporter"
+         BeginProperty Font 
+            Name            =   "Consolas"
+            Size            =   14.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   0
+         TabIndex        =   24
+         Top             =   0
+         Width           =   10335
+      End
+      Begin VB.Label Label4 
+         Alignment       =   2  'Center
+         BackColor       =   &H000000FF&
+         Caption         =   "X"
+         BeginProperty Font 
+            Name            =   "Consolas"
+            Size            =   14.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   375
+         Left            =   10320
+         TabIndex        =   23
+         Top             =   0
+         Width           =   615
+      End
+   End
+   Begin VB.CommandButton cmdTriggerModalExport 
+      Caption         =   "Export to ..."
+      BeginProperty Font 
+         Name            =   "Calibri"
+         Size            =   11.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   9840
+      TabIndex        =   20
+      Top             =   720
+      Width           =   1215
+   End
    Begin VB.PictureBox Picture1 
       BackColor       =   &H0000C000&
       Height          =   1935
-      Left            =   240
+      Left            =   120
       ScaleHeight     =   1875
-      ScaleWidth      =   8835
+      ScaleWidth      =   10875
       TabIndex        =   15
       Top             =   1680
       Visible         =   0   'False
-      Width           =   8895
+      Width           =   10935
       Begin VB.CommandButton Command1 
          Caption         =   "Synchronize"
          BeginProperty Font 
@@ -46,9 +153,9 @@ Begin VB.Form F_ReprintWO
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   3120
+         Left            =   4200
          TabIndex        =   16
-         Top             =   600
+         Top             =   840
          Width           =   2535
       End
       Begin VB.Label lblsynch 
@@ -66,7 +173,7 @@ Begin VB.Form F_ReprintWO
          EndProperty
          ForeColor       =   &H0000FFFF&
          Height          =   375
-         Left            =   1440
+         Left            =   2640
          TabIndex        =   19
          Top             =   1200
          Width           =   5655
@@ -86,7 +193,7 @@ Begin VB.Form F_ReprintWO
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   375
-         Left            =   8280
+         Left            =   10320
          TabIndex        =   18
          Top             =   0
          Width           =   615
@@ -108,7 +215,7 @@ Begin VB.Form F_ReprintWO
          Left            =   0
          TabIndex        =   17
          Top             =   0
-         Width           =   8295
+         Width           =   10335
       End
    End
    Begin VB.CommandButton Command2 
@@ -122,10 +229,10 @@ Begin VB.Form F_ReprintWO
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   495
-      Left            =   8640
+      Height          =   375
+      Left            =   8160
       TabIndex        =   14
-      Top             =   120
+      Top             =   720
       Width           =   375
    End
    Begin VB.CommandButton cmdToday 
@@ -196,7 +303,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6480
+      Left            =   5520
       TabIndex        =   10
       Top             =   720
       Width           =   1575
@@ -230,7 +337,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   8160
+      Left            =   7200
       TabIndex        =   8
       Top             =   720
       Width           =   855
@@ -270,7 +377,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   255000579
+      Format          =   122093571
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -287,8 +394,8 @@ Begin VB.Form F_ReprintWO
       Left            =   0
       TabIndex        =   1
       Top             =   5370
-      Width           =   9120
-      _ExtentX        =   16087
+      Width           =   11175
+      _ExtentX        =   19711
       _ExtentY        =   450
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
@@ -312,8 +419,8 @@ Begin VB.Form F_ReprintWO
       Left            =   120
       TabIndex        =   0
       Top             =   1200
-      Width           =   8895
-      _ExtentX        =   15690
+      Width           =   10935
+      _ExtentX        =   19288
       _ExtentY        =   7223
       _Version        =   393216
       Appearance      =   0
@@ -351,7 +458,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   120127491
+      Format          =   122159107
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel2 
@@ -369,6 +476,18 @@ Begin VB.Form F_ReprintWO
       TabIndex        =   6
       Top             =   720
       Width           =   495
+   End
+   Begin MSComctlLib.ProgressBar ProgressBar1 
+      Height          =   375
+      Left            =   7080
+      TabIndex        =   27
+      Top             =   120
+      Visible         =   0   'False
+      Width           =   3975
+      _ExtentX        =   7011
+      _ExtentY        =   661
+      _Version        =   393216
+      Appearance      =   1
    End
 End
 Attribute VB_Name = "F_ReprintWO"
@@ -393,12 +512,17 @@ Private needDay As Single
 Private reqQTy As Single
 Private reqQTy_purg As Single
 Private ttl_reqQty As Single
+Private rsAneHelper As ADODB.Recordset
+Private oExcel      As Object 'Excel.Application
+Private oBook       As Object 'Excel.Workbook
+Private oSheet      As Object 'Excel.Worksheet
 
 Private k As Byte
 Dim i As Long
 Dim r As Byte
 Dim qry As String
 Dim cvt_act As String
+Private spreasheet  As String
 
 Public Sub RotatePicture(fr_pic As PictureBox, to_pic As PictureBox, ByVal angle As Integer)
 Dim fr_pixels() As RGBTriplet
@@ -480,21 +604,21 @@ End Sub
 
 Private Sub cmdfind_Click()
     LoadDatanya
-    If Len(txtfind) > 0 Then
+    If Len(txtFind) > 0 Then
         rsWO.Fields("wo_no").Properties("Optimize") = True
         rsWO.Fields("partno").Properties("Optimize") = True
         rsWO.Fields("mesinno").Properties("Optimize") = True
         rsWO.Fields("partname").Properties("Optimize") = True
-        rsWO.Filter = "wo_no like '*" & txtfind & "*'"
+        rsWO.Filter = "wo_no like '*" & txtFind & "*'"
         'rsWO.Sort = ""
         If rsWO.RecordCount = 0 Then
             rsWO.Filter = adFilterNone
-            rsWO.Filter = "partno like '*" & txtfind & "*'"
+            rsWO.Filter = "partno like '*" & txtFind & "*'"
             If rsWO.RecordCount = 0 Then
                 rsWO.Filter = adFilterNone
-                rsWO.Filter = "mesinno like '*" & txtfind & "*'"
+                rsWO.Filter = "mesinno like '*" & txtFind & "*'"
                 If rsWO.RecordCount = 0 Then
-                    rsWO.Filter = "partname like '*" & txtfind & "*'"
+                    rsWO.Filter = "partname like '*" & txtFind & "*'"
                 End If
             End If
         End If
@@ -553,21 +677,21 @@ End Sub
 
 Private Sub cmdToday_Click()
     LoadDatanya_V2
-    If Len(txtfind) > 0 Then
+    If Len(txtFind) > 0 Then
         rsWO.Fields("wo_no").Properties("Optimize") = True
         rsWO.Fields("partno").Properties("Optimize") = True
         rsWO.Fields("mesinno").Properties("Optimize") = True
         rsWO.Fields("partname").Properties("Optimize") = True
-        rsWO.Filter = "wo_no like '*" & txtfind & "*'"
+        rsWO.Filter = "wo_no like '*" & txtFind & "*'"
         
         If rsWO.RecordCount = 0 Then
             rsWO.Filter = adFilterNone
-            rsWO.Filter = "partno like '*" & txtfind & "*'"
+            rsWO.Filter = "partno like '*" & txtFind & "*'"
             If rsWO.RecordCount = 0 Then
                 rsWO.Filter = adFilterNone
-                rsWO.Filter = "mesinno like '*" & txtfind & "*'"
+                rsWO.Filter = "mesinno like '*" & txtFind & "*'"
                 If rsWO.RecordCount = 0 Then
-                    rsWO.Filter = "partname like '*" & txtfind & "*'"
+                    rsWO.Filter = "partname like '*" & txtFind & "*'"
                 End If
             End If
         End If
@@ -579,6 +703,10 @@ Private Sub cmdToday_Click()
 End Sub
 
 
+
+Private Sub cmdTriggerModalExport_Click()
+    PicExportContainer.Visible = True
+End Sub
 
 Private Sub Command1_Click()
     'TEST FOR TOMOROOW
@@ -606,6 +734,89 @@ End Sub
 
 Private Sub Command2_Click()
     Picture1.Visible = True
+End Sub
+
+Private Sub Command3_Click()
+On Error GoTo exCe
+    Screen.MousePointer = 11
+    qry = "SELECT a.wo_no,status,lotno,issudate,a.partno,partname,moldno,mesinno, " _
+    & " a.qty,c.qty::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
+    & " tipelabel,mpp_doc,mpprev,c.item_id,c.item_nm,c.item_type,um_name,coalesce(qty_prg,0) qty_prg, printdate," _
+    & " coalesce(colordesc,'-') colordesc" _
+    & " FROM worko a inner join loadcap_mst_product_r b on a.partno=b.partno" _
+    & " inner join worko_mat c on a.wo_no=c.wo_no " _
+    & " inner join mst_item d on c.item_id=d.item_id" _
+    & " inner join r_unit_measure e on d.um_id=e.um_id" _
+    & " where (issudate>='" & Format(dt1, "yyyy-MM-dd") & "' and issudate<='" & Format(dt2, "yyyy-MM-dd") & "') and lotno<>'' order by wo_no asc"
+
+   
+    Set rsAneHelper = Con.Execute(qry)
+    If rsAneHelper.RecordCount < 1 Then MsgBox "nothing to be exported": Exit Sub
+    CommonDialog1.Filter = ""
+    CommonDialog1.CancelError = True
+    CommonDialog1.ShowSave
+    
+    If CommonDialog1.FileName <> "" Then
+        If optExportMicrosoft.Enabled = True Then
+            spreasheet = "Excel.Application"
+        Else
+            spreasheet = "Ket.Application"
+        End If
+        Set oExcel = CreateObject(spreasheet) 'New Excel.Application
+        Set oBook = oExcel.Workbooks.Add
+        Set oSheet = oBook.Sheets.Item(1)
+        oSheet.Cells(1, 1) = "Template Upload Production Schedule"
+        oSheet.Cells(2, 1) = "No"
+        oSheet.Cells(2, 2) = "NO WO"
+        oSheet.Cells(2, 3) = "PERIOD"
+        oSheet.Cells(2, 4) = "MACHINE NO"
+        oSheet.Cells(2, 5) = "LOTNO"
+        oSheet.Cells(2, 6) = "MOLD ID"
+        oSheet.Cells(2, 7) = "WP DATE"
+        oSheet.Cells(2, 8) = "PRODUCT NO"
+        oSheet.Cells(2, 9) = "QTY"
+        oSheet.Columns(9).NumberFormat = "@"
+        
+        Dim i As Integer, baris As Double
+        baris = 3
+        ProgressBar1.Visible = True
+        ProgressBar1.Value = 0
+        Dim totalRows As Double
+        totalRows = rsAneHelper.RecordCount
+        While Not rsAneHelper.EOF
+            oSheet.Cells(baris, 1) = baris - 2
+            oSheet.Cells(baris, 2) = rsAneHelper("wo_no")
+            oSheet.Cells(baris, 3) = "20" & Right(rsAneHelper("wo_no"), 2) & Left(Right(rsAneHelper("wo_no"), 5), 2)
+            oSheet.Cells(baris, 4) = IIf(IsNull(rsAneHelper("mesinno")), "-", rsAneHelper("mesinno"))
+            oSheet.Cells(baris, 5) = rsAneHelper("lotno")
+            oSheet.Cells(baris, 6) = rsAneHelper("moldno")
+            oSheet.Cells(baris, 7) = Format(rsAneHelper("issudate"), "yyyy-mm-dd")
+            oSheet.Cells(baris, 8) = rsAneHelper("partno")
+            oSheet.Cells(baris, 9) = rsAneHelper("qty")
+           
+            baris = baris + 1
+            ProgressBar1.Value = FormatNumber(((baris - 3) * 100) / totalRows, 0)
+            rsAneHelper.MoveNext
+        Wend
+        'xlWorkbookNormal
+        oSheet.Columns("B:I").AutoFit
+        oExcel.ActiveWorkbook.SaveAs CommonDialog1.FileName, -4143
+        MsgBox "saved !", vbInformation, "Good"
+        oExcel.Quit
+        Set oSheet = Nothing
+        Set oBook = Nothing
+        Set oExcel = Nothing
+        ProgressBar1.Visible = False
+        
+    Else
+        MsgBox "Canceled !", vbInformation, "Sorry..."
+    End If
+    Screen.MousePointer = 0
+    Exit Sub
+exCe:
+    MsgBox Err.Description, vbInformation, Err.Number
+    Screen.MousePointer = 0
+    MsgBox "Silahkan coba lagi"
 End Sub
 
 Private Sub dt1_Change()
@@ -974,7 +1185,7 @@ Private Sub Form_Load()
     activeTheme skinFD, Me
     BukaKoneksi
     Me.Height = 6195
-    Me.Width = 9360
+    Me.Width = 11395
     dt1 = Now
     dt2 = dt1
 '    Call WheelHook(Me.hwnd)
@@ -994,6 +1205,10 @@ End Sub
 
 Private Sub Label2_Click()
     Picture1.Visible = False
+End Sub
+
+Private Sub Label4_Click()
+    PicExportContainer.Visible = False
 End Sub
 
 Private Sub txtfind_KeyPress(KeyAscii As Integer)

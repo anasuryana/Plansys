@@ -377,7 +377,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   122683395
+      Format          =   308019203
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -458,7 +458,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   122683395
+      Format          =   308019203
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel2 
@@ -740,13 +740,8 @@ Private Sub Command3_Click()
 On Error GoTo exCe
     Screen.MousePointer = 11
     qry = "SELECT a.wo_no,status,lotno,issudate,a.partno,partname,moldno,mesinno, " _
-    & " a.qty,c.qty::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
-    & " tipelabel,mpp_doc,mpprev,c.item_id,c.item_nm,c.item_type,um_name,coalesce(qty_prg,0) qty_prg, printdate," _
-    & " coalesce(colordesc,'-') colordesc" _
+    & " a.qty" _
     & " FROM worko a inner join loadcap_mst_product_r b on a.partno=b.partno" _
-    & " inner join worko_mat c on a.wo_no=c.wo_no " _
-    & " inner join mst_item d on c.item_id=d.item_id" _
-    & " inner join r_unit_measure e on d.um_id=e.um_id" _
     & " where (issudate>='" & Format(dt1, "yyyy-MM-dd") & "' and issudate<='" & Format(dt2, "yyyy-MM-dd") & "') and lotno<>'' order by wo_no asc"
 
    
@@ -959,9 +954,9 @@ Private Sub LoadDatanya()
     & " tipelabel,mpp_doc,mpprev,c.item_id,c.item_nm,c.item_type,um_name,coalesce(qty_prg,0) qty_prg, printdate," _
     & " coalesce(colordesc,'-') colordesc" _
     & " FROM worko a inner join loadcap_mst_product_r b on a.partno=b.partno" _
-    & " inner join worko_mat c on a.wo_no=c.wo_no " _
-    & " inner join mst_item d on c.item_id=d.item_id" _
-    & " inner join r_unit_measure e on d.um_id=e.um_id" _
+    & " left join worko_mat c on a.wo_no=c.wo_no " _
+    & " left join mst_item d on c.item_id=d.item_id" _
+    & " left join r_unit_measure e on d.um_id=e.um_id" _
     & " where (issudate>='" & Format(dt1, "yyyy-MM-dd") & "' and issudate<='" & Format(dt2, "yyyy-MM-dd") & "') and coalesce(lotno,'')<>'' order by wo_no asc"
 
     Set rsWO = Con.Execute(qry)

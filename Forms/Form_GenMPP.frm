@@ -319,7 +319,7 @@ Begin VB.Form Form_GenMPP
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   227016707
+      Format          =   252575747
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -1073,7 +1073,7 @@ Private Sub NOP_Generate(phkw_tsb As Integer, pi_hkw As Long)
     qry = "select cust_name,assy_no,a.item_name,fg,p1,p2,p3,fc1 " _
         & " ,prod_plan_1,prod_plan_2,prod_plan_3,prod_plan_4 " _
         & " ,g.cavity,g.ct,g.manpower,g.ct_2,g.prod_nomach " _
-        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else (prod_plan_" & pi_hkw & "/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/" & phkw_tsb & "*100 end presenku " _
+        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else round((prod_plan_" & pi_hkw & "/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/" & phkw_tsb & "*100,6) end presenku " _
         & " ,faktor_productivity,state_mach,mold_no,subcont,hour_p_shift,shift_usg,cavity_std,item_muloq,item_perbox, " _
         & " priorit,submch,timeupdate,prc_prodplan from ltpp_generate a " _
         & " inner join mst_item b on a.assy_no=b.item_id " _
@@ -2353,7 +2353,7 @@ Private Sub txtRevision_Click()
     qry = "select cust_name,assy_no,a.item_name,fg,p1,p2,p3,fc1 " _
         & " ,prod_plan_1,prod_plan_2,prod_plan_3,prod_plan_4 " _
         & " ,g.cavity,g.ct,g.manpower,g.ct_2,g.prod_nomach " _
-        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else (prod_plan_1/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/" & ar_hkw(1) * 1 & "*100 end presenku " _
+        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else round ((prod_plan_1/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/" & ar_hkw(1) * 1 & "*100,6) end presenku " _
         & " ,faktor_productivity,state_mach, mold_no,subcont,hour_p_shift,shift_usg,cavity_std,item_muloq,item_perbox " _
         & " ,priorit,submch,timeupdate,prc_prodplan from ltpp_generate a " _
         & " inner join mst_item b on a.assy_no=b.item_id " _
@@ -2363,10 +2363,11 @@ Private Sub txtRevision_Click()
         & " inner join loadcap_proc g on d.partno=g.partno" _
         & " left join loadcap_mst_mach e on g.prod_nomach=e.no_mach" _
         & " where stscode_id='01' AND a.ltpp_doc='" & CmbDocument & "' and a.rev=" & txtRevision & " and (prod_nomach is not null and prod_nomach!='0' and prod_nomach!='')" _
-        & " order by subcont asc,19 desc, priorit asc,2 "
-
-    Set rsB = Con.Execute(qry)
-
+        & " order by subcont asc,19 desc, priorit asc,2"
+    Set rsB = Nothing
+    Set rsB = New ADODB.Recordset
+    rsB.Open qry, Con, adOpenStatic, adLockOptimistic
+    
     Erase aPartPrior
     ReDim aPartPrior(1 To 1) As String
     resetArrayOVR

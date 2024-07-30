@@ -427,7 +427,7 @@ Begin VB.Form F_GenerateLoadCap_V2
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   122683395
+      Format          =   122355715
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 

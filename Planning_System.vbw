@@ -1,5 +1,5 @@
 Skins = 0, 0, 0, 0, C
-StyleText = 156, 156, 929, 598, 
+StyleText = 156, 156, 929, 598, Z
 TabFormChild = 0, 0, 0, 0, C
 Form_Login = 0, 0, 0, 0, C, 130, 130, 980, 670, C
 ListViewColor = 26, 26, 953, 566, 
@@ -72,4 +72,4 @@ Form_CancelWO = 104, 104, 877, 546, , 39, 134, 889, 674, C
 popup_wono = 0, 0, 0, 0, C, 234, 234, 1084, 774, C
 Form_RLoading_c1 = 0, 0, 0, 0, C, 0, 0, 850, 540, C
 Popup_Box = 0, 0, 0, 0, C, 26, 26, 876, 566, C
-AppBuild = 26, 26, 799, 468, Z
+AppBuild = 26, 26, 799, 468, 

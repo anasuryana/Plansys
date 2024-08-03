@@ -267,7 +267,6 @@ Begin VB.Form F_Mst_Product_v2
          Height          =   360
          Left            =   5760
          TabIndex        =   72
-         ToolTipText     =   "gram"
          Top             =   2040
          Width           =   975
       End
@@ -322,6 +321,7 @@ Begin VB.Form F_Mst_Product_v2
          Height          =   360
          Left            =   6720
          TabIndex        =   52
+         ToolTipText     =   "for 100% fill 1, 90% fill 0.9, 75% fill 0.75"
          Top             =   1080
          Width           =   975
       End
@@ -1804,7 +1804,7 @@ On Error GoTo ErrEx
         Con.Execute qry
         MsgBox "deleted successfully", vbInformation
     End If
-    If Len(txtFind) > 2 Then
+    If Len(txtfind) > 2 Then
         LoadDatanya
         LoadDatanya_V2
     Else
@@ -2049,8 +2049,8 @@ Private Sub updatesHIFT()
 End Sub
 
 Private Sub LoadDatanya_V2()
-    If Len(Trim(txtFind)) > 0 Then
-        RsGet.Filter = "partno LIKE '*" & txtFind & "*'"
+    If Len(Trim(txtfind)) > 0 Then
+        RsGet.Filter = "partno LIKE '*" & txtfind & "*'"
     Else
         RsGet.Filter = adFilterNone
     End If
@@ -2058,7 +2058,7 @@ Private Sub LoadDatanya_V2()
         Call getList
     Else
         RsGet.Filter = adFilterNone
-        RsGet.Filter = "item_name LIKE '*" & txtFind & "*'"
+        RsGet.Filter = "item_name LIKE '*" & txtfind & "*'"
         Call getList
     End If
     
@@ -2390,7 +2390,7 @@ End Sub
 
 Private Sub txtfind_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
-        txtFind = FilterIn(txtFind)
+        txtfind = FilterIn(txtfind)
         LoadDatanya
         LoadDatanya_V2
     End If

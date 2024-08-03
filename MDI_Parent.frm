@@ -402,6 +402,8 @@ On Error GoTo ErrHandler
         pUserId = "?"
     End If
     RsDB.Close
+    
+    Caption = Caption & " V" & PLANSYS_VERSION
     Exit Sub
 ErrHandler:
     If Err.Number <> 0 Then

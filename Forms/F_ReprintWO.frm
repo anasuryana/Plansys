@@ -377,7 +377,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   308019203
+      Format          =   351928323
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -458,7 +458,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   308019203
+      Format          =   350814211
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel2 
@@ -785,7 +785,8 @@ On Error GoTo exCe
             oSheet.Cells(baris, 4) = IIf(IsNull(rsAneHelper("mesinno")), "-", rsAneHelper("mesinno"))
             oSheet.Cells(baris, 5) = rsAneHelper("lotno")
             oSheet.Cells(baris, 6) = rsAneHelper("moldno")
-            oSheet.Cells(baris, 7) = Format(rsAneHelper("issudate"), "yyyy-mm-dd")
+            oSheet.Cells(baris, 7).NumberFormat = "@"
+            oSheet.Cells(baris, 7) = Format(rsAneHelper("issudate"), "yyyy-MM-dd")
             oSheet.Cells(baris, 8) = rsAneHelper("partno")
             oSheet.Cells(baris, 9) = rsAneHelper("qty")
            

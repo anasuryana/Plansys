@@ -427,7 +427,7 @@ Begin VB.Form F_GenerateLoadCap_V2
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   122355715
+      Format          =   104988675
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -507,8 +507,7 @@ Dim dob2c As Double
 Dim dBariss As Long
 
 ' untuk keperluan pembulatan sub isi(....,....,...)
-Dim MPQ As Variant
-Dim bReach As Boolean
+
 Dim ar_propl() As Variant
 Dim ar_propl2() As Variant
 Dim ar_propl3() As Variant
@@ -1905,8 +1904,17 @@ Private Sub rsKeArray(paray As String)
 End Sub
 
 Private Function isi(pMPQ As Double, pCapPDay As Variant, atasBawah As String)
+    Dim MPQ As Variant
+    Dim bReach As Boolean
+    
     bReach = True
     MPQ = pMPQ
+    
+    If pMPQ = 0 Then
+        isi = 0
+        Exit Function
+    End If
+    
     While bReach
         If MPQ * 1 > pCapPDay * 1 Then
             If atasBawah = "a" Then
@@ -1987,8 +1995,11 @@ Private Sub txtRevision_Click()
          & "where stscode_id='01' AND a.ltpp_doc='" & CmbDocument & "' and a.rev=" & txtRevision & "" _
          & " and (prod_plan_1>0 or prod_plan_2>0 or prod_plan_3>0 or prod_plan_4>0)"
     Set rsB = Con.Execute(qry)
+    
+    
     i = 1
     If rsB.RecordCount > 0 Then
+        
         ar_hkw(1) = rsB("hkw_1")
         ar_hkw(2) = rsB("hkw_2")
         ar_hkw(3) = rsB("hkw_3")
@@ -2040,6 +2051,7 @@ Private Sub txtRevision_Click()
                 End If
             End If
             
+            
             '* prod plan 2
             If c_cap_p_day * 1 > rsB("prod_plan_2") Then
                 If rsB("prod_plan_2") > 0 Then
@@ -2062,7 +2074,7 @@ Private Sub txtRevision_Click()
                     ar_propl2(i) = 0
                 End If
             End If
-            
+
             '* prod plan 3
             If c_cap_p_day * 1 > rsB("prod_plan_3") Then
                 If rsB("prod_plan_3") > 0 Then
@@ -2110,6 +2122,7 @@ Private Sub txtRevision_Click()
             i = i + 1
             rsB.MoveNext
         Wend
+        
     Else
         ar_hkw(1) = "-"
         ar_hkw(2) = "-"
@@ -2139,6 +2152,7 @@ Private Sub txtRevision_Click()
          & " left join loadcap_mst_mach e on g.prod_nomach=e.no_mach " _
          & " where stscode_id='01' AND a.ltpp_doc='" & CmbDocument & "' and a.rev=" & txtRevision & ""
     Set rsB = Con.Execute(qry)
+   
     
     i = 1
     If rsB.RecordCount > 0 Then

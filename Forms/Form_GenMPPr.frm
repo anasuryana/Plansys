@@ -1231,8 +1231,7 @@ Private st_lc As Double
 
 Private ttlMPP As Variant
 
-Private MPQ As Variant
-Private bReach As Boolean
+
 Private HKWs As Integer
 Private totalHari As Integer
 Private hLibur_gak As Boolean
@@ -1529,8 +1528,16 @@ Sub ResizeControls()
 End Sub
 
 Private Function isi(pMPQ As Double, pCapPDay As Variant, atasBawah As String)
+    Private MPQ As Variant
+    Private bReach As Boolean
+    
     bReach = True
     MPQ = pMPQ
+    
+    If pMPQ = 0 Then
+        isi = 0
+        Exit Function
+    End If
     While bReach
         If MPQ * 1 > pCapPDay * 1 Then
             If atasBawah = "a" Then
@@ -5705,7 +5712,7 @@ Private Sub Form_Resize()
     
     cmbType.Left = SkinLabel5.Left
     cmbType.Top = SkinLabel9.Top
-    cmdFileType.Top = cmdExport.Top
+    cmdFileType.Top = CmdExport.Top
     cmdFileType.Width = Label16.Width
     cmdFileType.Left = Label16.Left
 End Sub
@@ -6087,8 +6094,8 @@ End Function
 Private Sub txtfind_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         Dim ttlData As Long
-        txtfind = FilterIn(txtfind)
-        qry = "select * from (select distinct on (mpp_doc_no,mpp_revisi,ml_doc,ml_rev) mpp_doc_no,mpp_revisi,ml_ym,ml_rev,ml_doc  from mpp_gen where mpp_doc_no like '%" & txtfind & "%' ) v1 order by ml_ym desc, mpp_revisi desc limit 3"
+        txtFind = FilterIn(txtFind)
+        qry = "select * from (select distinct on (mpp_doc_no,mpp_revisi,ml_doc,ml_rev) mpp_doc_no,mpp_revisi,ml_ym,ml_rev,ml_doc  from mpp_gen where mpp_doc_no like '%" & txtFind & "%' ) v1 order by ml_ym desc, mpp_revisi desc limit 3"
         Set RsBantu = Con.Execute(qry)
         
         fgmpp.rows = 1
@@ -6096,9 +6103,9 @@ Private Sub txtfind_KeyPress(KeyAscii As Integer)
             RsBantu.Fields("mpp_doc_no").Properties("Optimize") = True
             RsBantu.Fields("mpp_revisi").Properties("Optimize") = True
             With fgmpp
-                If Len(Trim(txtfind)) > 0 Then
+                If Len(Trim(txtFind)) > 0 Then
                     RsBantu.Filter = adFilterNone
-                    RsBantu.Filter = "mpp_doc_no LIKE '*" & txtfind & "*'"
+                    RsBantu.Filter = "mpp_doc_no LIKE '*" & txtFind & "*'"
                     If RsBantu.RecordCount > 0 Then
                         clearIN
                         .rows = RsBantu.RecordCount + 1
@@ -6117,7 +6124,7 @@ Private Sub txtfind_KeyPress(KeyAscii As Integer)
                         Next
                     Else
                         RsBantu.Filter = adFilterNone
-                        RsBantu.Filter = "mpp_revisi LIKE '*" & txtfind & "*'"
+                        RsBantu.Filter = "mpp_revisi LIKE '*" & txtFind & "*'"
                         If RsBantu.RecordCount > 0 Then
                             clearIN
                             .rows = RsBantu.RecordCount + 1

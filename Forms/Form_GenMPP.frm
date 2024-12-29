@@ -319,7 +319,7 @@ Begin VB.Form Form_GenMPP
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   252575747
+      Format          =   104529923
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -403,8 +403,7 @@ Dim dob2c As Double
 Dim dBariss As Long
 
 ' untuk keperluan pembulatan sub isi(....,....,...)
-Dim MPQ As Variant
-Dim bReach As Boolean
+
 Dim ar_propl() As Variant
 Dim ar_propl2() As Variant
 Dim ar_propl3() As Variant
@@ -1907,10 +1906,14 @@ Private Sub rsKeArray2(pitem As String, pneday As Variant, pMOLD As String, pmes
 End Sub
 
 Private Function isi(pMPQ As Double, pCapPDay As Variant, atasBawah As String)
+    Dim MPQ As Variant
+    Dim bReach As Boolean
+    
     bReach = True
     MPQ = pMPQ
     If pMPQ = 0 Then
         MsgBox "Packing " & temp_part & "=0"
+        Exit Function
     End If
     While bReach
         If MPQ * 1 > pCapPDay * 1 Then

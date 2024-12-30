@@ -319,7 +319,7 @@ Begin VB.Form Form_GenMPP
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   104529923
+      Format          =   244580355
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -686,9 +686,18 @@ Private Sub gridFormatNum()
         With anaGrid
             .TextMatrix(v, 6) = FormatNumber(.TextMatrix(v, 6), 0)
             .TextMatrix(v, 7) = FormatNumber(.TextMatrix(v, 7), 4)
-            .TextMatrix(v, 9) = FormatNumber(.TextMatrix(v, 9), 0)
-            .TextMatrix(v, 10) = FormatNumber(.TextMatrix(v, 10), 0)
-            .TextMatrix(v, 11) = FormatNumber(.TextMatrix(v, 11), 0)
+            If .TextMatrix(v, 9) <> "" Then
+                .TextMatrix(v, 9) = FormatNumber(.TextMatrix(v, 9), 0)
+            End If
+            
+            If .TextMatrix(v, 10) <> "" Then
+                .TextMatrix(v, 10) = FormatNumber(.TextMatrix(v, 10), 0)
+            End If
+            
+            If .TextMatrix(v, 11) <> "" Then
+                .TextMatrix(v, 11) = FormatNumber(.TextMatrix(v, 11), 0)
+            End If
+            
             .TextMatrix(v, 12) = FormatNumber(.TextMatrix(v, 12), 0)
             .TextMatrix(v, 17) = FormatNumber(.TextMatrix(v, 17), 0)
             .TextMatrix(v, 18) = FormatNumber(.TextMatrix(v, 18), 0)
@@ -2145,6 +2154,7 @@ Private Sub txtRevision_Click()
         ReDim ar_propl3(1 To rsB.RecordCount) As Variant
         ReDim ar_propl4(1 To rsB.RecordCount) As Variant
         While Not rsB.EOF
+            temp_part = RTrim(rsB("assy_no"))
             c_part(i) = RTrim(rsB("assy_no"))
             c_part_saved(i) = "0"
             If rsB("ct") = 0 Then

@@ -377,7 +377,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   351928323
+      Format          =   245235715
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -458,7 +458,7 @@ Begin VB.Form F_ReprintWO
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MMM-yyyy"
-      Format          =   350814211
+      Format          =   245235715
       CurrentDate     =   42753
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel2 
@@ -951,7 +951,7 @@ End Sub
 
 Private Sub LoadDatanya()
     qry = "SELECT a.wo_no,status,lotno,issudate,a.partno,partname,moldno,mesinno, " _
-    & " a.qty,c.qty::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
+    & " a.qty,coalesce(c.qty,0)::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
     & " tipelabel,mpp_doc,mpprev,c.item_id,c.item_nm,c.item_type,um_name,coalesce(qty_prg,0) qty_prg, printdate," _
     & " coalesce(colordesc,'-') colordesc" _
     & " FROM worko a inner join loadcap_mst_product_r b on a.partno=b.partno" _
@@ -966,7 +966,7 @@ End Sub
 
 Private Sub LoadDatanya_V2()
     qry = "SELECT a.wo_no,status,lotno,issudate,a.partno,partname,moldno,mesinno, " _
-    & " a.qty,c.qty::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
+    & " a.qty,coalesce(c.qty,0)::varchar qty_mat ,cavstd,ctscnd,ctmachine,targetpshift,manpower,leadtime,datesupply,a.isno," _
     & " tipelabel,mpp_doc,mpprev,c.item_id,c.item_nm,c.item_type,um_name,coalesce(qty_prg,0) qty_prg, printdate" _
     & ",coalesce(colordesc,'-') colordesc FROM worko a inner join loadcap_mst_product_r b on a.partno=b.partno" _
     & " inner join worko_mat c on a.wo_no=c.wo_no " _
@@ -1095,7 +1095,12 @@ On Error GoTo Exc
             For r = 1 To rsWO.RecordCount
                 rsWO.AbsolutePosition = r
                 reqQTy = rsWO("qty") * rsWO("qty_mat")
-                reqQTy_purg = (reqQTy / ttl_reqQty) * (rsWO("qty_prg") / 1000)
+                If ttl_reqQty = 0 Then
+                    reqQTy_purg = 0
+                Else
+                    reqQTy_purg = (reqQTy / ttl_reqQty) * (rsWO("qty_prg") / 1000)
+                End If
+                
 
                 .Controls("lblqtyReq").Caption = .Controls("lblqtyReq").Caption & vbNewLine & (reqQTy + reqQTy_purg) & " " & rsWO("um_name")
             Next

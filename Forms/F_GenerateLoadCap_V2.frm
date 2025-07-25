@@ -8,7 +8,7 @@ Begin VB.Form F_GenerateLoadCap_V2
    ClientHeight    =   7080
    ClientLeft      =   120
    ClientTop       =   450
-   ClientWidth     =   11400
+   ClientWidth     =   14415
    BeginProperty Font 
       Name            =   "Calibri"
       Size            =   11.25
@@ -21,7 +21,66 @@ Begin VB.Form F_GenerateLoadCap_V2
    LinkTopic       =   "Form1"
    MDIChild        =   -1  'True
    ScaleHeight     =   7080
-   ScaleWidth      =   11400
+   ScaleWidth      =   14415
+   Begin VB.PictureBox PicWarning 
+      BackColor       =   &H00C0FFC0&
+      Height          =   2295
+      Left            =   5160
+      ScaleHeight     =   2235
+      ScaleWidth      =   4635
+      TabIndex        =   36
+      Top             =   3480
+      Visible         =   0   'False
+      Width           =   4695
+      Begin VB.TextBox txtwarning 
+         Height          =   1695
+         Left            =   240
+         ScrollBars      =   2  'Vertical
+         TabIndex        =   39
+         Top             =   480
+         Width           =   4095
+      End
+      Begin VB.Label Label4 
+         Alignment       =   2  'Center
+         BackColor       =   &H000000FF&
+         Caption         =   "X"
+         BeginProperty Font 
+            Name            =   "Calibri"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   255
+         Left            =   4200
+         TabIndex        =   38
+         Top             =   0
+         Width           =   495
+      End
+      Begin VB.Label Label3 
+         Alignment       =   2  'Center
+         BackColor       =   &H0000C000&
+         Caption         =   "Warning !"
+         BeginProperty Font 
+            Name            =   "Calibri"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FFFFFF&
+         Height          =   255
+         Left            =   0
+         TabIndex        =   37
+         Top             =   0
+         Width           =   4215
+      End
+   End
    Begin VB.PictureBox PicFIND 
       BackColor       =   &H00C0FFC0&
       Height          =   1095
@@ -427,7 +486,7 @@ Begin VB.Form F_GenerateLoadCap_V2
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   104988675
+      Format          =   122355715
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -526,6 +585,8 @@ Dim ttMold      As String
 Dim c_NDMtZ     As Variant
 Dim tToutalMold As Integer
 Dim posisisFind As Long
+
+Dim logItemCode As String
 
 Sub ResizeControls()
     On Error Resume Next
@@ -1160,7 +1221,7 @@ Private Sub NOP_Generate(phkw_tsb As Integer, pi_hkw As Long)
     qry = "select cust_name,assy_no,a.item_name,fg,p1,p2,p3,fc1" _
         & " ,prod_plan_1,prod_plan_2,prod_plan_3,prod_plan_4 " _
         & " ,g.cavity,g.ct,g.manpower,g.ct_2,g.prod_nomach " _
-        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else (prod_plan_" & pi_hkw & "/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/a.hkw_" & pi_hkw & "*100 end presenku " _
+        & " ,coalesce(e.tonage_mach,0) tonage_mach,case when (g.cavity=0 or g.ct=0) then 0 else round((prod_plan_" & pi_hkw & "/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/a.hkw_" & pi_hkw & "*100,2) end presenku " _
         & " ,faktor_productivity,state_mach,mold_no,subcont,hour_p_shift,shift_usg,cavity_std,item_muloq,item_perbox " _
         & " ,priorit,submch from ltpp_generate a " _
         & " inner join mst_item b on a.assy_no=b.item_id " _
@@ -1317,6 +1378,7 @@ Private Sub NOP_Generate(phkw_tsb As Integer, pi_hkw As Long)
     '*** FILTER 1
     For dBariss = 1 To UBound(c_part)
         If ar_prodplan(dBariss) * 1 > 0 Then
+            logItemCode = c_part(dBariss)
             rsB.Filter = adFilterNone
             rsB.Filter = "assy_no='" & c_part(dBariss) & "' and subcont='no'"
             rsB.Sort = "mold_no ASC"
@@ -1474,6 +1536,7 @@ Private Function PerMcNow(pmesin As String, phkw As Integer) As Single
 End Function
 
 Private Sub CMdNExt_Click()
+'On Error GoTo ex
     If Len(Text1) < 1 Then Exit Sub
     Screen.MousePointer = 11
     Dim u As Integer, posisiBulan As Long, hkw_tsb As Integer
@@ -1500,6 +1563,11 @@ Private Sub CMdNExt_Click()
     NOP_Generate hkw_tsb, posisiBulan
     Screen.MousePointer = 0
     If CmbDocument <> "" Then checkNeedMoldMachine
+    Exit Sub
+'ex:
+'    MsgBox Err.Description, vbCritical, Err.Number
+'    txtwarning.Text = logItemCode & " please check"
+'    PicWarning.Visible = True
 End Sub
 
 Private Sub formatWarnaBG()
@@ -1610,7 +1678,7 @@ End Function
 
 Private Sub cmdSave_Click()
 'Exit Sub
-On Error GoTo excEp
+'On Error GoTo excEp
 '    DoEvents
     Dim i As Long, u As Long, qry2 As String, totalBaris As Long
     Dim rsLC As ADODB.Recordset, rsLC_d As ADODB.Recordset, rscheck As ADODB.Recordset
@@ -1768,8 +1836,8 @@ On Error GoTo excEp
         End With
     End If
     Exit Sub
-excEp:
-    MsgBox Err.Description, vbCritical, Err.Number
+'excEp:
+'    MsgBox Err.Description, vbCritical, Err.Number
 End Sub
 
 Private Sub Command1_Click()
@@ -1955,6 +2023,18 @@ End Sub
 
 Private Sub Label15_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
     MousePointer = 0
+End Sub
+
+Private Sub Label3_MouseDown(Button As Integer, Shift As Integer, x As Single, Y As Single)
+MousePointer = 15
+End Sub
+
+Private Sub Label3_MouseUp(Button As Integer, Shift As Integer, x As Single, Y As Single)
+MousePointer = 0
+End Sub
+
+Private Sub Label4_Click()
+PicWarning.Visible = False
 End Sub
 
 Private Sub List1_Click()
@@ -2203,7 +2283,7 @@ Private Sub txtRevision_Click()
     qry = "select cust_name,assy_no,a.item_name,fg,p1,p2,p3,fc1" _
         & " ,prod_plan_1,prod_plan_2,prod_plan_3,prod_plan_4 " _
         & " ,g.cavity,g.ct,g.manpower,g.ct_2,g.prod_nomach " _
-        & " ,coalesce(e.tonage_mach,0) tonage_mach,a.hkw_1,case when (g.cavity=0 or g.ct=0 ) then 0 else (prod_plan_1/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/a.hkw_1*100 end presenku " _
+        & " ,coalesce(e.tonage_mach,0) tonage_mach,a.hkw_1,case when (g.cavity=0 or g.ct=0 ) then 0 else round((prod_plan_1/((60 / g.ct) * g.cavity * hour_p_shift * shift_usg * 60 )*faktor_productivity)/a.hkw_1*100,2) end presenku " _
         & " ,faktor_productivity,state_mach, mold_no,subcont,shift_usg,hour_p_shift,cavity_std,item_muloq,item_perbox " _
         & " ,priorit,submch from ltpp_generate a " _
         & " inner join mst_item b on a.assy_no=b.item_id " _
@@ -2214,7 +2294,7 @@ Private Sub txtRevision_Click()
         & " left join loadcap_mst_mach e on g.prod_nomach=e.no_mach" _
         & " where stscode_id='01' AND a.ltpp_doc='" & CmbDocument & "' and a.rev=" & txtRevision & " " _
         & " and (prod_plan_1>0 or prod_plan_2>0 or prod_plan_3>0 or prod_plan_4>0)" _
-        & " order by subcont asc,20 desc,priorit asc,2 " ' ,prod_nomach asc"
+        & " order by subcont asc,20 desc,priorit asc,2"
     
     Set rsB = Con.Execute(qry)
   

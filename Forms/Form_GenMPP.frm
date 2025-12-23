@@ -319,7 +319,7 @@ Begin VB.Form Form_GenMPP
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "yyyyMM"
-      Format          =   244580355
+      Format          =   273547267
       CurrentDate     =   42544
    End
    Begin ACTIVESKINLibCtl.SkinLabel SkinLabel1 
@@ -1929,7 +1929,7 @@ Private Function isi(pMPQ As Double, pCapPDay As Variant, atasBawah As String)
             If atasBawah = "a" Then
                 isi = MPQ '- pMPQ
             Else
-                isi = MPQ - pMPQ
+                isi = pCapPDay
             End If
             bReach = False
         Else
@@ -2710,6 +2710,7 @@ Private Sub txtRevision_Click()
                             If rsB("ct") = 0 Then
                                 c_cap_p_day = 0
                             Else
+                            
                                 c_cap_p_day = ((60 / rsB("ct")) * rsB("cavity") * rsB("hour_p_shift") * rsB("shift_usg") * 60) * rsB("faktor_productivity")
                                 If rsB("item_perbox") = 0 Then
                                     c_cap_p_day = isi(rsB("item_muloq"), c_cap_p_day, "b")
@@ -2895,5 +2896,3 @@ Private Sub txtRevision_DropDown()
         Wend
     End If
 End Sub
-
-
